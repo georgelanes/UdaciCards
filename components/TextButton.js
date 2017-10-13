@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     btnStyle:{
       backgroundColor:black,
       borderWidth:1,
-      borderRadius: Platform.OS === 'ios' ? 7 : 2,
+      borderRadius: Platform.OS === 'ios' ? 3 : 2,
     }
 })
 

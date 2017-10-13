@@ -1,7 +1,10 @@
 import React, { Component, } from 'react'
 import { StyleSheet, Text, View, TextInput,Button,Platform } from 'react-native'
+import {connect} from 'react-redux'
 import {purple, white,gray} from '../utils/colors';
 import TextButton from './TextButton'
+import  {  addDeck } from '../actions'
+import { saveDeckTitle } from '../utils/api'
 
 const styles = StyleSheet.create({
     container:{
@@ -36,6 +39,10 @@ const styles = StyleSheet.create({
 
 class NewDeck extends Component {
 
+  state={
+    title:''
+  }
+  
   static propTypes = {}
 
   static defaultProps = {}
@@ -46,14 +53,29 @@ class NewDeck extends Component {
   }
   
   onSubmit = () =>{
-    console.log('onSubmit Pressed.')
+        const state = this.state
+
+        this.props.dispatch(addDeck({
+            state
+        }))
+
+        this.setState(()=>({
+            deckTitle:''
+        }))
+
+        saveDeckTitle(state.title)
+  }
+  
+  onChangeText = (text) => {
+    this.setState({title: text })
+    console.log(text);
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>What is the title of your new deck?</Text>
-        <TextInput style={styles.textInput} placeholder='Deck title' />
+        <TextInput style={styles.textInput} placeholder='Deck title' onChangeText={this.onChangeText}/>
         <TextButton style={styles.submitBtnText} onPress={this.onSubmit}>
           SUBMIT
         </TextButton>
@@ -62,4 +84,4 @@ class NewDeck extends Component {
   }
 }
 
-export default NewDeck
+export default connect()(NewDeck)

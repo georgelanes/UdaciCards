@@ -1,13 +1,16 @@
 import React from 'react';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import { StyleSheet, Text, View, StatusBar,Platform } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Constants } from 'expo'
 import {FontAwesome, Ionicons} from '@expo/vector-icons';
-
+import reducer  from './reducers'
 import {purple, white, black} from './utils/colors';
 
 import Decks from './components/Decks';
 import NewDeck from './components/NewDeck';
+import DeckDetail from './components/DeckDetail';
 
 
 function AppStatusBar({ backgroundColor, ...props }){
@@ -54,6 +57,15 @@ const Tabs = TabNavigator({
 const MainNavigator = StackNavigator({
   Home:{
     screen: Tabs
+  },
+  DeckDetail:{
+    screen:DeckDetail,
+    navigationOptions:{
+      headerTintColor: white,
+      headerStyle:{
+        backgroundColor: black
+      }
+    }
   }
 })
 
@@ -63,10 +75,12 @@ export default class App extends React.Component {
 
   render() {
     return (
-        <View style={{flex:1}}>
-          <AppStatusBar backgroundColor={black} barStyle='light-content' />
-          <MainNavigator />
-        </View>
+        <Provider store = {createStore(reducer)}>
+          <View style={{flex:1}}>
+            <AppStatusBar backgroundColor={black} barStyle='light-content' />
+            <MainNavigator />
+          </View>
+        </Provider>
     );
   }
 }
