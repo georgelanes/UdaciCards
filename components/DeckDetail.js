@@ -77,7 +77,9 @@ class DeckDetail extends Component {
                     <Text style={styles.total}>{deck.questions.length} cards</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    <TextButton style={styles.addCardBtnText} onPress={this.onSubmit}>
+                    <TextButton style={styles.addCardBtnText} onPress={()=> this.props.navigation.navigate(
+                        'NewCard', {deckId: deck.title}
+                    )}>
                         Add Card
                     </TextButton>
                     <TextButton style={styles.quizBtnText} onPress={this.onSubmit}>

@@ -5,6 +5,7 @@ import {purple, white,gray} from '../utils/colors';
 import TextButton from './TextButton'
 import  {  addDeck } from '../actions'
 import { saveDeckTitle } from '../utils/api'
+import { toHome } from '../utils/helpers'
 
 const styles = StyleSheet.create({
     container:{
@@ -42,10 +43,6 @@ class NewDeck extends Component {
   state={
     title:''
   }
-  
-  static propTypes = {}
-
-  static defaultProps = {}
 
   constructor(props) {
     super(props)
@@ -53,29 +50,36 @@ class NewDeck extends Component {
   }
   
   onSubmit = () =>{
-        const state = this.state
+        const {title} = this.state
+
+        if(!title){
+          alert("Deck title is required!")
+          return
+        }
 
         this.props.dispatch(addDeck({
-            state
+          title
         }))
+
+        toHome(this.props.navigation)
 
         this.setState(()=>({
-            deckTitle:''
+          title:''
         }))
 
-        saveDeckTitle(state.title)
+        saveDeckTitle(title)
+        
   }
   
   onChangeText = (text) => {
     this.setState({title: text })
-    console.log(text);
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>What is the title of your new deck?</Text>
-        <TextInput style={styles.textInput} placeholder='Deck title' onChangeText={this.onChangeText}/>
+        <TextInput style={styles.textInput} placeholder='Deck title' onChangeText={this.onChangeText} text={this.state.title}/>
         <TextButton style={styles.submitBtnText} onPress={this.onSubmit}>
           SUBMIT
         </TextButton>

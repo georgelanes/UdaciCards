@@ -1,6 +1,8 @@
 import React, { Component, } from 'react'
 import {connect} from 'react-redux'
-import { StyleSheet, Text, View, StatusBar,Platform, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, StatusBar,Platform, TouchableOpacity,ScrollView } from 'react-native'
+import { Card, Button,Badge } from 'react-native-elements';
+
 import {AppLoading} from 'expo'
 import  { receiveDecks } from '../actions'
 import { getDecks } from '../utils/api'
@@ -16,6 +18,8 @@ class Decks extends Component {
       .then(()=> this.setState(()=>({
         ready:true
       })))
+
+      console.log('componentDidMount')
   }
 
   constructor(props) {
@@ -25,6 +29,10 @@ class Decks extends Component {
     }
   }
 
+shouldComponentUpdate(nextProps) {
+  return true
+}
+
   render() {
     const {decks} = this.props
     const {ready} = this.state
@@ -32,9 +40,8 @@ class Decks extends Component {
     if(ready === false ){
       <AppLoading />
     }
-    
-    console.log("decks list")
-    console.log(decks)
+
+
     
     if(Object.keys(decks).length === 0){
       return (
@@ -45,27 +52,29 @@ class Decks extends Component {
         </View>
       )
     }
-    
+
+   
     return (
-      <View>
+      <ScrollView>
         {Object.keys(decks).map((key)=>{
           const {title, questions} = decks[key]
-          return (
-
-              <View key={key} style={styles.container}>
+          if(title) {
+            return (
+              <View key={key}>
                 <TouchableOpacity onPress={()=> this.props.navigation.navigate(
-                    'DeckDetail', {deckId: key}
-                )}>
-                  <View>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.total}>{questions ? questions.length : 0}</Text>
-                  </View>
+                        'DeckDetail', {deckId: key}
+                    )}>
+                    <Card title={title} titleStyle={{fontSize:18}}>
+                      <Text style={styles.cardNumber} >
+                        {questions ? questions.length : 0}
+                      </Text>
+                    </Card>
                 </TouchableOpacity>
               </View>
-           
             )
+          }
         })}
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -79,17 +88,10 @@ const styles = StyleSheet.create({
       padding:6,
       backgroundColor:white
     },
-    title:{
-      fontSize:30,
-      alignItems: 'center',
+    cardNumber:{
       textAlign:'center',
-      
-    },
-    total:{
       fontSize:25,
-      alignItems: 'center',
-      textAlign:'center',
-      color:gray
+      color:'orange'
     }
 
 })

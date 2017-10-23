@@ -4,13 +4,14 @@ import { Provider } from 'react-redux'
 import { StyleSheet, Text, View, StatusBar,Platform } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Constants } from 'expo'
-import {FontAwesome, Ionicons} from '@expo/vector-icons';
+import {MaterialCommunityIcons,Entypo} from '@expo/vector-icons';
 import reducer  from './reducers'
 import {purple, white, black} from './utils/colors';
 
 import Decks from './components/Decks';
 import NewDeck from './components/NewDeck';
 import DeckDetail from './components/DeckDetail';
+import NewCard from './components/NewCard';
 
 
 function AppStatusBar({ backgroundColor, ...props }){
@@ -25,13 +26,15 @@ const Tabs = TabNavigator({
   Decks:{
     screen:Decks,
     navigationOptions:{
-      tabBarLabel:'Decks'
+      tabBarLabel:'Decks',
+      tabBarIcon: ({tintColor}) => <MaterialCommunityIcons name='cards' size={30} color={tintColor} />
     }
   },
   NewDeck:{
     screen:NewDeck,
     navigationOptions:{
-      tabBarLabel:'New Deck'
+      tabBarLabel:'New Deck',
+      tabBarIcon: ({tintColor}) => <Entypo name='add-to-list' size={30} color={tintColor} />
     }
   }
 },{
@@ -60,6 +63,15 @@ const MainNavigator = StackNavigator({
   },
   DeckDetail:{
     screen:DeckDetail,
+    navigationOptions:{
+      headerTintColor: white,
+      headerStyle:{
+        backgroundColor: black
+      }
+    }
+  },
+  NewCard:{
+    screen:NewCard,
     navigationOptions:{
       headerTintColor: white,
       headerStyle:{
