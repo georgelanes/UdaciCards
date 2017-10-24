@@ -8,16 +8,27 @@ function reducer(state={}, action) {
                 ...state,
                 ...action.decks
             }
+            break
         case ADD_DECK:
-            return {
+            return {                
                 ...state,
-                ...action.deck
+                [action.title]:{
+                    title:action.title,
+                    questions:[]
+                }
             }
-        case ADD_CARD:
-            return {
-                ...state,
-                ...action.card
-            }        
+            break
+        case ADD_CARD: {
+            const deck = {
+                ...state
+            }
+            if (deck[action.title]) {
+                const {question, answer} = action.card
+                deck[action.title].questions.push({question, answer})
+            }
+            return deck
+            break;
+        }
         default:
             return state
     }

@@ -1,11 +1,11 @@
 import React, { Component, } from 'react'
 import { StyleSheet, Text, View, TextInput,Button,Platform } from 'react-native'
+import {NavigationActions} from 'react-navigation'
 import {connect} from 'react-redux'
 import {purple, white,gray} from '../utils/colors';
 import TextButton from './TextButton'
-import  {  addDeck } from '../actions'
+import  { addDeck } from '../actions'
 import { saveDeckTitle } from '../utils/api'
-import { toHome } from '../utils/helpers'
 
 const styles = StyleSheet.create({
     container:{
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
       fontSize:20,
       padding:10,
       fontFamily: 'Cochin',
-      height: 40, 
+      height: 45, 
       borderColor:gray, 
       borderWidth:1,
       borderRadius:Platform.OS === 'ios' ? 7 : 2
@@ -43,34 +43,25 @@ class NewDeck extends Component {
   state={
     title:''
   }
-
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
   
   onSubmit = () =>{
         const {title} = this.state
+        const {addDeck} = this.props
 
         if(!title){
           alert("Deck title is required!")
           return
         }
 
-        this.props.dispatch(addDeck({
-          title
-        }))
-
-        toHome(this.props.navigation)
-
-        this.setState(()=>({
-          title:''
-        }))
-
+        addDeck(title)
         saveDeckTitle(title)
-        
+        this.toHome()
   }
   
+  toHome() {
+    this.props.navigation.dispatch(NavigationActions.back({key: 'NewDeck'}))
+  }
+
   onChangeText = (text) => {
     this.setState({title: text })
   }
@@ -88,4 +79,8 @@ class NewDeck extends Component {
   }
 }
 
-export default connect()(NewDeck)
+function mapStateToProps(decks) {
+  return {decks}
+}
+
+export default connect(mapStateToProps,{addDeck})(NewDeck)

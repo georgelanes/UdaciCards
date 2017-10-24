@@ -46,30 +46,14 @@ const styles = StyleSheet.create({
 class DeckDetail extends Component {
 
     static navigationOptions = ({ navigation }) => {
-        const { deckId } = navigation.state.params
-
-
+        const { title } = navigation.state.params
         return {
-            title:deckId
+            title:title
         }
     }
 
-    onSubmit = () =>{
-        // const state = this.state
-
-        // this.props.dispatch(addDeck({
-        //     state
-        // }))
-
-        // this.setState(()=>({
-        //     deckTitle:''
-        // }))
-
-        // saveDeckTitle(state.title)
-  }
-
     render () {
-        const {deck} = this.props
+        const {deck, goToAddCard, goToQuiz} = this.props
         return (
             <View style={styles.container}>
                 <View style={styles.container}>
@@ -77,12 +61,10 @@ class DeckDetail extends Component {
                     <Text style={styles.total}>{deck.questions.length} cards</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    <TextButton style={styles.addCardBtnText} onPress={()=> this.props.navigation.navigate(
-                        'NewCard', {deckId: deck.title}
-                    )}>
+                    <TextButton style={styles.addCardBtnText} onPress={()=> goToAddCard(deck.title)}>
                         Add Card
                     </TextButton>
-                    <TextButton style={styles.quizBtnText} onPress={this.onSubmit}>
+                    <TextButton style={styles.quizBtnText} onPress={() => goToQuiz(deck.title)}>
                         Start Quiz
                     </TextButton>
                 </View>
@@ -91,13 +73,23 @@ class DeckDetail extends Component {
     }
 }
 
-function mapStateToProps(state, {navigation}){
-    const {deckId} = navigation.state.params
-
+function mapStateToProps(decks, {navigation}) {
+    const {title} = navigation.state.params
     return {
-        deckId,
-        deck: state[deckId]
+      deck: decks[title] || {},
+      decks
     }
-}
+  }
+  
+  function mapDispatchToProps(dispatch, {navigation}) {
+    const {title} = navigation.state.params
+  
+    return {
+      goBack: () => navigation.goBack(),
+      goToAddCard: (title) => navigation.navigate('NewCard', {title: title}),
+      goToQuiz: (title) => navigation.navigate('Quiz', {title: title})
+    }
+  
+  }
 
-export default connect(mapStateToProps)(DeckDetail)
+export default connect(mapStateToProps, mapDispatchToProps)(DeckDetail)

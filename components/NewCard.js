@@ -62,39 +62,18 @@ class NewCard extends Component {
   }
   
   onSubmit = () =>{
-        const state = this.state
-        const {deck} = this.props
-
-        this.props.dispatch(addCard({
-            deck
-        }))
-
-        this.setState(()=>({
-            question:'',
-            answer:''
-        }))
-
-        const card = {
-            'question':state.question,
-            'answer':state.answer
-        }
-
-        //toHome(this.props.navigation)
-        this.toHome()
-
-        addCardToDeck(deck.title, card)
-
-
+    const {question, answer} = this.state
+    const {addCard, deck, goBack} = this.props
+    if (question && answer) {
+      const card = {
+        question:question,
+        answer:answer
+      }
+      addCard(deck.title, card)
+      addCardToDeck(deck.title, card)
+      goBack()
+    }
   }
-
-  toHome = () => {
-    
-    console.log('toHome')
-
-    this.props.navigation.dispatch(NavigationActions.back({
-        key:'addCard'
-    }))
-}
   
   onChangeQuestionText = (text) => {
     this.setState({question: text })
@@ -119,13 +98,21 @@ class NewCard extends Component {
   }
 }
 
-function mapStateToProps(state, {navigation}){
-    const {deckId} = navigation.state.params
-
-    return {
-        deckId,
-        deck: state[deckId]
-    }
+function mapStateToProps(decks, {navigation}) {
+  const {title} = navigation.state.params
+  return {
+    deck: decks[title] || {}
+  }
 }
 
-export default connect(mapStateToProps)(NewCard)
+function mapDispatchToProps(dispatch, {navigation}) {
+  const {title} = navigation.state.params
+
+  return {
+    goBack: () => navigation.goBack(),
+    addCard: (title, card) => dispatch(addCard(title, card))
+  }
+
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(NewCard)
