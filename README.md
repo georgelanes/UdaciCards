@@ -5,8 +5,8 @@ Udacity React && React Native Nanodegree
 
 Install Expo Client App on your device and add this project url: https://exp.host/@georgelanes/flashcards
 
-[iOS] (https://itunes.apple.com/us/app/expo-client/id982107779?mt=8)
-[Android] (https://play.google.com/store/apps/details?id=host.exp.exponent)
+[iOS](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8)
+[Android](https://play.google.com/store/apps/details?id=host.exp.exponent)
 
 ## Project start template
 
