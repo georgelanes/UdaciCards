@@ -36,6 +36,9 @@ const styles = StyleSheet.create({
       borderColor:gray, 
       borderWidth:1,
       borderRadius:Platform.OS === 'ios' ? 7 : 2
+    },
+    TextInputAnswer:{
+      height: 100
     }
 })
 
@@ -88,8 +91,8 @@ class NewCard extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Add card to '{deck.title}' deck!</Text>
-        <TextInput style={styles.textInput} placeholder='Question' onChangeText={this.onChangeQuestionText}/>
-        <TextInput style={styles.textInput} placeholder='Answer' onChangeText={this.onChangeAnswerText}/>
+        <TextInput style={styles.textInput}  underlineColorAndroid={'transparent'} maxLength={50}  placeholder='Question' onChangeText={this.onChangeQuestionText}/>
+        <TextInput style={[styles.textInput, styles.TextInputAnswer]}  underlineColorAndroid={'transparent'} maxLength={255}  multiline={true} placeholder='Answer' onChangeText={this.onChangeAnswerText}/>
         <TextButton style={styles.submitBtnText} onPress={this.onSubmit}>
           SUBMIT
         </TextButton>

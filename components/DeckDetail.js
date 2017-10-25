@@ -69,7 +69,7 @@ class DeckDetail extends Component {
                     </TextButton>
                 </View>
             </View>
-        );
+        )
     }
 }
 
