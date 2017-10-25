@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Animated } from 'react-native'
 import {connect} from 'react-redux'
 import { Card } from 'react-native-elements';
-//import {setLocalNotification, clearLocalNotification} from '../utils/notifications'
+import {setLocalNotification, clearLocalNotification} from '../utils/notification'
 import {white, black, green, red, charcoal} from '../utils/colors'
 import TextButton from './TextButton'
 import Deck from './Deck'
@@ -16,7 +16,7 @@ class Quiz extends PureComponent {
   }
 
   componentDidMount() {
-    //clearLocalNotification().then(setLocalNotification)
+    clearLocalNotification().then(setLocalNotification)
   }
 
   correctBtn() {

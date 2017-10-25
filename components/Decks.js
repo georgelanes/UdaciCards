@@ -17,7 +17,6 @@ class Decks extends Component {
 
   constructor(props){
     super(props)
-    //clearDB()
   }
  componentDidMount() {
     const { receiveDecks } = this.props

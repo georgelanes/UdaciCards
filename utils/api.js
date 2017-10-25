@@ -39,10 +39,6 @@ export function saveDeckTitle(title){
   })
 }
 
-export function clearDB() {
-  AsyncStorage.setItem(DECK_STORAGE_KEY, '')
-}
-
 export function getDecks() {
     const listOfDecks = AsyncStorage.getItem(DECK_STORAGE_KEY).then((response) => { 
       return JSON.parse(response)  || mockDecks(); 
@@ -56,15 +52,9 @@ export function getDecks() {
 
 export function addCardToDeck(title, card){
   
-  console.log('Title: ', title)
-  console.log('Card: ', card)
-
   getDecks().then((data) => {
 
     const deck = data[title]
-    
-    console.log('Deck: ', deck)
-
     deck.questions.push(card)
     data[title] = deck
 
