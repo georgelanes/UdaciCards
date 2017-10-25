@@ -1,5 +1,20 @@
 {
   "expo": {
-    "sdkVersion": "21.0.0"
+    "sdkVersion": "21.0.0",
+    "orientation": "portrait",
+    "name": "UdaciCards",
+    "description": "UdaciCards is an collections of flashcards",
+    "slug": "flashcards",
+    "version": "1.0",
+    "icon": "http://www.globit.com.br/UdaciCards/flashcards-app-icon.png",
+    "notification": {
+      "icon": "http://www.globit.com.br/UdaciCards/flashcards-notification-icon.png"
+    },
+    "ios": {
+     "bundleIdentifier": "br.com.globit.udacicards",
+    },
+    "android": {
+     "package": "br.com.globit.udacicards",
+    }
   }
 }
